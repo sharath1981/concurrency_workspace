@@ -2,6 +2,7 @@ package com.kpt;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
@@ -10,6 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class CustomBQLockSolution {
 
+    private static final CountDownLatch latch = new CountDownLatch(8);
     private static final BlockingQueueLock<Integer> queue = new BlockingQueueLock<>(5);
 
     public static void main(String[] args) throws Exception {
@@ -23,7 +25,9 @@ public class CustomBQLockSolution {
             service.submit(CustomBQLockSolution::consumer);
             service.submit(CustomBQLockSolution::producer);
             service.submit(CustomBQLockSolution::consumer);
-            TimeUnit.SECONDS.sleep(10);
+            System.out.println("Before await...");
+            latch.await();
+            System.out.println("Completed...");
         } finally {
             service.shutdown();
         }
@@ -39,6 +43,7 @@ public class CustomBQLockSolution {
                 e.printStackTrace();
             }
         }
+        latch.countDown();
     }
 
     private static void consumer() {
@@ -50,6 +55,7 @@ public class CustomBQLockSolution {
                 e.printStackTrace();
             }
         }
+        latch.countDown();
     }
 
 }

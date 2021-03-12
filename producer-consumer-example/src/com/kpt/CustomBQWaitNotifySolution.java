@@ -2,11 +2,12 @@ package com.kpt;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class CustomBQWaitNotifySolution {
-
+    private static final CountDownLatch latch = new CountDownLatch(8);
     private static final BlockingQueueWaitNotify<Integer> queue = new BlockingQueueWaitNotify<>(5);
 
     public static void main(String[] args) throws Exception {
@@ -20,7 +21,9 @@ public class CustomBQWaitNotifySolution {
             service.submit(CustomBQWaitNotifySolution::consumer);
             service.submit(CustomBQWaitNotifySolution::producer);
             service.submit(CustomBQWaitNotifySolution::consumer);
-            TimeUnit.SECONDS.sleep(10);
+            System.out.println("Before await...");
+            latch.await();
+            System.out.println("Completed...");
         } finally {
             service.shutdown();
         }
@@ -36,6 +39,7 @@ public class CustomBQWaitNotifySolution {
                 e.printStackTrace();
             }
         }
+        latch.countDown();
     }
 
     private static void consumer() {
@@ -47,6 +51,7 @@ public class CustomBQWaitNotifySolution {
                 e.printStackTrace();
             }
         }
+        latch.countDown();
     }
 }
 
