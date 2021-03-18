@@ -13,8 +13,9 @@ public class ExchangerApp {
 
     private static void racer1() {
         try {
-            System.out.println(" racer1() : " + exchanger.exchange("SHARATH from racer1"));
-
+            final var threadName = Thread.currentThread().getName();
+            final var message = String.format("SHARATH from %s", threadName);
+            System.out.printf("%s => %s %n", threadName, exchanger.exchange(message));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -22,7 +23,9 @@ public class ExchangerApp {
 
     private static void racer2() {
         try {
-            System.out.println(" racer2() : " + exchanger.exchange("KUMAR from racer2"));
+            final var threadName = Thread.currentThread().getName();
+            final var message = String.format("KUMAR from %s", threadName);
+            System.out.printf("%s => %s %n", Thread.currentThread().getName(), exchanger.exchange(message));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
