@@ -43,7 +43,6 @@ class FibonacciTask1 extends RecursiveAction {
 
     @Override
     protected void compute() {
-        //System.out.println(Thread.currentThread().getName());
         final var n = number;
         if (n <= threshold) {
             number = fib(n);
@@ -76,7 +75,6 @@ class FibonacciTask2 extends RecursiveTask<Long> {
 
     @Override
     protected Long compute() {
-        //System.out.println(Thread.currentThread().getName());
         final var n = number;
         if (n <= threshold) {
             return fib(n);
