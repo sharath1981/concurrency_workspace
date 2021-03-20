@@ -3,11 +3,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 public class JdbcConnectionPoolManager {
     public static void main(String[] args) throws Exception {
-       
+		
     }
 }
 
@@ -33,10 +34,10 @@ enum JdbcConnection {
 	}
 
 	private void initializePool() {
-		IntStream.range(0, poolSize)
-                 .boxed()
-                 .map(e -> createConnection())
-                 .forEach(poolOfAvailableConnections::add);
+		Stream.generate(this::createConnection)
+			  .limit(poolSize)
+			  .filter(Objects::nonNull)
+			  .forEach(poolOfAvailableConnections::add);
 	}
 
 	private Connection createConnection() {
@@ -54,7 +55,6 @@ enum JdbcConnection {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public synchronized Connection checkOut() {
