@@ -5,13 +5,13 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class OddEvenPrinter {
 
+    private static final String GREEN = "\u001B[42m";
+    private static final String RED = "\u001B[41m";
     private static final Lock lock = new ReentrantLock(true);
 
     public static void main(String[] args) throws InterruptedException {
-        final var odd = new Thread(OddEvenPrinter::oddPrinter);
-        final var even = new Thread(OddEvenPrinter::evenPrinter);
-        odd.setName("ODD Number => ");
-        even.setName("EVEN Number => ");
+        final var odd = new Thread(OddEvenPrinter::oddPrinter, RED);
+        final var even = new Thread(OddEvenPrinter::evenPrinter, GREEN);
         odd.start();
         even.start();
         odd.join();
@@ -33,7 +33,7 @@ public class OddEvenPrinter {
     private static void printer(final int i) {
         lock.lock();
         try {
-            System.out.println(Thread.currentThread().getName() + i);
+            System.out.println(Thread.currentThread().getName() + i + "  \u001B[0m");
         } finally {
             lock.unlock();
         }
