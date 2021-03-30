@@ -5,6 +5,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class OddEvenPrinter {
 
+    private static final String RESET = "\u001B[0m";
     private static final String GREEN = "\u001B[42m";
     private static final String RED = "\u001B[41m";
     private static final Lock lock = new ReentrantLock(true);
@@ -33,7 +34,7 @@ public class OddEvenPrinter {
     private static void printer(final int i) {
         lock.lock();
         try {
-            System.out.println(Thread.currentThread().getName() + i + "  \u001B[0m");
+            System.out.println(Thread.currentThread().getName() + i + " " + RESET);
         } finally {
             lock.unlock();
         }
