@@ -1,5 +1,6 @@
 package com.kpt;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -35,6 +36,9 @@ public class OddEvenPrinter {
         lock.lock();
         try {
             System.out.println(Thread.currentThread().getName() + i + " " + RESET);
+            TimeUnit.MILLISECONDS.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         } finally {
             lock.unlock();
         }
