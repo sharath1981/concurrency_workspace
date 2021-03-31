@@ -21,13 +21,13 @@ public class OddEvenPrinter {
     }
 
     private static void oddPrinter() {
-        for (int i = 1; i < 100; i = i + 2) {
+        for (int i = 1; i < 100; i += 2) {
             printer(i);
         }
     }
 
     private static void evenPrinter() {
-        for (int i = 2; i < 100; i = i + 2) {
+        for (int i = 2; i < 100; i += 2) {
             printer(i);
         }
     }
