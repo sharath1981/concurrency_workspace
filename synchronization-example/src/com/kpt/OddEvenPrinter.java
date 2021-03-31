@@ -36,7 +36,7 @@ public class OddEvenPrinter {
         lock.lock();
         try {
             System.out.println(Thread.currentThread().getName() + i + " " + RESET);
-            TimeUnit.MILLISECONDS.sleep(200);
+            TimeUnit.MILLISECONDS.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
