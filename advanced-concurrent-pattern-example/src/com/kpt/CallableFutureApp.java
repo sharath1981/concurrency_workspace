@@ -8,9 +8,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 public class CallableFutureApp {
+
+    private static final AtomicInteger count = new AtomicInteger();
+
     public static void main(String[] args) {
         final var executorService = Executors.newFixedThreadPool(10);
         final var task = new Task();
+        
+        //Stream.generate(()->executorService.submit(CallableFutureApp::running))
         Stream.generate(()->executorService.submit(task))
               .limit(10)
               .peek(future-> System.out.println(future.isDone()))
@@ -30,6 +35,15 @@ public class CallableFutureApp {
         }
         executorService.shutdown();
         System.out.println("Done!!!");
+    }
+
+    private static String running() throws Exception {
+        try {
+            TimeUnit.MILLISECONDS.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return String.format("%s => %d", Thread.currentThread().getName(), count.incrementAndGet());
     }
 
 }
