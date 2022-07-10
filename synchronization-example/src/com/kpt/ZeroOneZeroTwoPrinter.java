@@ -12,11 +12,11 @@ public class ZeroOneZeroTwoPrinter {
         CompletableFuture.allOf(
             CompletableFuture.runAsync(ZeroOneZeroTwoPrinter::zero),
             CompletableFuture.runAsync(ZeroOneZeroTwoPrinter::odd),
-            CompletableFuture.runAsync(ZeroOneZeroTwoPrinter::even));
+            CompletableFuture.runAsync(ZeroOneZeroTwoPrinter::even)).join();
     }
 
     private static void zero() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 1; i < 10; i++) {
             try {
                 zSem.acquire();
                 System.out.print("0");
