@@ -82,7 +82,7 @@ class BlockingQueueWaitNotify<E> {
             while (list.isEmpty()) {
                 lock.wait();
             }
-            final var element = list.remove(0);
+            final var element = list.removeFirst();
             lock.notify();
             return element;
         }

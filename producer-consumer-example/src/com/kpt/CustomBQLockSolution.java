@@ -93,7 +93,7 @@ class BlockingQueueLock<E> {
             while (list.isEmpty()) {
                 notEmpty.await();
             }
-            final var element = list.remove(0);
+            final var element = list.removeFirst();
             notFull.signal();
             return element;
         } finally {
